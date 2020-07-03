@@ -15,10 +15,23 @@ public class PatternLockReceiver extends DeviceAdminReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if(ACTION_PASSWORD_SUCCEEDED.equals(action)) {
-            onPasswordSuccess();
-        } else if(ACTION_PASSWORD_FAILED.equals(action)) {
-            onPasswordFailed(context);
+//        if(ACTION_PASSWORD_SUCCEEDED.equals(action)) {
+//            onPasswordSuccess();
+//        } else if(ACTION_PASSWORD_FAILED.equals(action)) {
+//            onPasswordFailed(context);
+//        }
+
+        switch (action){
+            case ACTION_PASSWORD_SUCCEEDED:{
+                onPasswordSuccess();
+            }break;
+            case ACTION_PASSWORD_FAILED:
+            case ACTION_LOCK_TASK_ENTERING:
+            case Intent.ACTION_SCREEN_OFF:
+            case ACTION_LOCK_TASK_EXITING:{
+                Log.d(TAG, "onPasswordFailed " + action);
+                onPasswordFailed(context);
+            }break;
         }
     }
 
